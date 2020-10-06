@@ -7,34 +7,36 @@ const INITIAL_STATE: ICartState = {
 }
 
 const cart: Reducer<ICartState> = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case 'ADD_PRODUCT_TO_CART': {
-      const { product } = action.payload;
-
-      return produce(state, draft => {
+  return produce(state, draft => {
+    switch (action.type) {
+      case 'ADD_PRODUCT_TO_CART': {
+        const { product } = action.payload;
+        
         draft.items.push({
           product,
           quantity: 1,
-        })
-      });
+        });
+        
+        break;
 
-      // Without immer lib
-      // -----------------
-      // return {
-      //   ...state,
-      //   items: [
-      //     ...state.items,
-      //     {
-      //       product,
-      //       quantity: 1,
-      //     }
-      //   ]
-      // };
+        // Without immer lib
+        // -----------------
+        // return {
+        //   ...state,
+        //   items: [
+        //     ...state.items,
+        //     {
+        //       product,
+        //       quantity: 1,
+        //     }
+        //   ]
+        // };
+      }
+      default: {
+        return draft;
+      }
     }
-    default: {
-      return state;
-    }
-  }  
+  });
 }
 
 export default cart;
